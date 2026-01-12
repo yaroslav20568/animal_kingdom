@@ -10,6 +10,8 @@ class BookScreen extends StatefulWidget {
 class _BookScreenState extends State<BookScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Book Screen')));
+    return const Scaffold(
+      body: SafeArea(child: Center(child: Text('Book Screen'))),
+    );
   }
 }
