@@ -4,11 +4,15 @@ import 'package:animal_kingdom/models/animal.dart';
 class BookPagesWidget extends StatelessWidget {
   final Animal leftPageAnimal;
   final Animal rightPageAnimal;
+  final int pageNumber;
+  final int totalPages;
 
   const BookPagesWidget({
     super.key,
     required this.leftPageAnimal,
     required this.rightPageAnimal,
+    required this.pageNumber,
+    required this.totalPages,
   });
 
   @override
@@ -21,24 +25,54 @@ class BookPagesWidget extends StatelessWidget {
           colors: [Colors.brown.shade100, Colors.brown.shade200],
         ),
       ),
-      child: Row(
+      child: Column(
         children: [
-          Expanded(child: _buildPage(leftPageAnimal, isLeft: true)),
           Container(
-            width: 3,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.brown.shade400,
-                  Colors.brown.shade300,
-                  Colors.brown.shade400,
-                ],
-              ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Энциклопедия Животных',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.brown.shade700,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  'Стр. $pageNumber из $totalPages',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.brown.shade700,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ),
-          Expanded(child: _buildPage(rightPageAnimal, isLeft: false)),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(child: _buildPage(leftPageAnimal, isLeft: true)),
+                Container(
+                  width: 3,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.brown.shade400,
+                        Colors.brown.shade300,
+                        Colors.brown.shade400,
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(child: _buildPage(rightPageAnimal, isLeft: false)),
+              ],
+            ),
+          ),
         ],
       ),
     );

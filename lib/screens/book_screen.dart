@@ -104,8 +104,31 @@ class _BookScreenState extends State<BookScreen>
             return BookPagesWidget(
               leftPageAnimal: pair['left'],
               rightPageAnimal: pair['right'],
+              pageNumber: index + 1,
+              totalPages: _pagePairs.length,
             );
           },
+        ),
+        Positioned(
+          top: 16,
+          left: 16,
+          child: _currentPageIndex > 0
+              ? IconButton(
+                  icon: const Icon(Icons.first_page),
+                  onPressed: () {
+                    _pageController.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.white.withValues(alpha: 0.8),
+                    padding: const EdgeInsets.all(12),
+                  ),
+                  tooltip: 'К первой странице',
+                )
+              : const SizedBox.shrink(),
         ),
         Positioned(
           top: 16,
@@ -117,6 +140,7 @@ class _BookScreenState extends State<BookScreen>
               backgroundColor: Colors.white.withValues(alpha: 0.8),
               padding: const EdgeInsets.all(12),
             ),
+            tooltip: 'Закрыть книгу',
           ),
         ),
         Positioned(bottom: 16, left: 0, right: 0, child: _buildPageIndicator()),
