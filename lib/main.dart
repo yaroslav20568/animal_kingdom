@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/book_screen.dart';
+import 'package:animal_kingdom/screens/book_screen.dart';
 
 void main() {
   runApp(const MyApp());

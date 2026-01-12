@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/animal.dart';
+import 'package:animal_kingdom/models/animal.dart';
 
 class BookPagesWidget extends StatelessWidget {
   final Animal leftPageAnimal;
@@ -18,13 +18,26 @@ class BookPagesWidget extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.brown.shade50, Colors.brown.shade100],
+          colors: [Colors.brown.shade100, Colors.brown.shade200],
         ),
       ),
       child: Row(
         children: [
           Expanded(child: _buildPage(leftPageAnimal, isLeft: true)),
-          Container(width: 2, color: Colors.brown.shade300),
+          Container(
+            width: 3,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.brown.shade400,
+                  Colors.brown.shade300,
+                  Colors.brown.shade400,
+                ],
+              ),
+            ),
+          ),
           Expanded(child: _buildPage(rightPageAnimal, isLeft: false)),
         ],
       ),
@@ -33,34 +46,65 @@ class BookPagesWidget extends StatelessWidget {
 
   Widget _buildPage(Animal animal, {required bool isLeft}) {
     return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(color: Colors.brown.shade50),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      decoration: BoxDecoration(
+        color: Colors.brown.shade50,
+        borderRadius: BorderRadius.circular(4),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.brown.shade300.withValues(alpha: 0.3),
+            blurRadius: 8,
+            offset: const Offset(2, 2),
+          ),
+        ],
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            animal.name,
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.brown.shade900,
+          Container(
+            padding: const EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.brown.shade300, width: 2),
+              ),
+            ),
+            child: Text(
+              animal.name,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: Colors.brown.shade900,
+                letterSpacing: 0.5,
+              ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Text(
             animal.description,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 15,
               color: Colors.brown.shade800,
-              height: 1.5,
+              height: 1.6,
             ),
           ),
-          const SizedBox(height: 24),
-          _buildInfoRow('Среда обитания:', animal.habitat),
-          const SizedBox(height: 12),
-          _buildInfoRow('Питание:', animal.diet),
-          const SizedBox(height: 12),
-          _buildInfoRow('Продолжительность жизни:', animal.lifespan),
+          const SizedBox(height: 28),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.brown.shade100.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                _buildInfoRow('Среда обитания:', animal.habitat),
+                const SizedBox(height: 14),
+                _buildInfoRow('Питание:', animal.diet),
+                const SizedBox(height: 14),
+                _buildInfoRow('Продолжительность жизни:', animal.lifespan),
+              ],
+            ),
+          ),
         ],
       ),
     );
