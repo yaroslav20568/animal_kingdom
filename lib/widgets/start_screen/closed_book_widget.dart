@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:animal_kingdom/constants/colors.dart';
+
 class ClosedBookWidget extends StatelessWidget {
   final VoidCallback onOpen;
 
@@ -16,7 +18,7 @@ class ClosedBookWidget extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Colors.brown.shade800, Colors.brown.shade900],
+            colors: [AppColors.brown800, AppColors.brown900],
           ),
         ),
         child: LayoutBuilder(
@@ -37,19 +39,19 @@ class ClosedBookWidget extends StatelessWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
-                              Colors.brown.shade700,
-                              Colors.brown.shade800,
-                              Colors.brown.shade900,
+                              AppColors.brown700,
+                              AppColors.brown800,
+                              AppColors.brown900,
                             ],
                           ),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.brown.shade600,
+                            color: AppColors.brown600,
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.6),
+                              color: AppColors.shadowBlack,
                               blurRadius: 30,
                               offset: const Offset(0, 15),
                               spreadRadius: 5,
@@ -70,9 +72,9 @@ class ClosedBookWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.transparent,
-                                      Colors.brown.shade400,
-                                      Colors.transparent,
+                                      AppColors.transparent,
+                                      AppColors.brown400,
+                                      AppColors.transparent,
                                     ],
                                   ),
                                 ),
@@ -88,14 +90,14 @@ class ClosedBookWidget extends StatelessWidget {
                                     padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.brown.shade900.withValues(
+                                      color: AppColors.brown900.withValues(
                                         alpha: 0.5,
                                       ),
                                     ),
                                     child: Icon(
                                       Icons.menu_book_rounded,
                                       size: 60,
-                                      color: Colors.brown.shade200,
+                                      color: AppColors.brown200,
                                     ),
                                   ),
                                 ),
@@ -107,7 +109,7 @@ class ClosedBookWidget extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.brown.shade300,
+                                      color: AppColors.brown300,
                                       letterSpacing: 3,
                                     ),
                                   ),
@@ -120,11 +122,11 @@ class ClosedBookWidget extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 28,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.brown.shade100,
+                                      color: AppColors.brown100,
                                       letterSpacing: 1,
                                       shadows: [
                                         Shadow(
-                                          color: Colors.brown.shade900,
+                                          color: AppColors.brown900,
                                           offset: const Offset(2, 2),
                                           blurRadius: 4,
                                         ),
@@ -137,7 +139,7 @@ class ClosedBookWidget extends StatelessWidget {
                                   child: Container(
                                     width: 60,
                                     height: 1,
-                                    color: Colors.brown.shade400,
+                                    color: AppColors.brown400,
                                   ),
                                 ),
                               ],
@@ -152,7 +154,7 @@ class ClosedBookWidget extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.brown.shade300,
+                            color: AppColors.brown300,
                             fontStyle: FontStyle.italic,
                           ),
                         ),

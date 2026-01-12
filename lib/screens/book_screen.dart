@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:animal_kingdom/data/index.dart';
-import 'package:animal_kingdom/widgets/index.dart';
+import 'package:animal_kingdom/widgets/book_screen/index.dart';
+import 'package:animal_kingdom/constants/colors.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -102,7 +103,7 @@ class _BookScreenState extends State<BookScreen> {
                         );
                       },
                       style: IconButton.styleFrom(
-                        backgroundColor: Colors.white.withValues(alpha: 0.8),
+                        backgroundColor: AppColors.whiteOverlay,
                         padding: const EdgeInsets.all(8),
                         minimumSize: const Size(36, 36),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -118,7 +119,7 @@ class _BookScreenState extends State<BookScreen> {
                 icon: const Icon(Icons.close, size: 20),
                 onPressed: _closeBook,
                 style: IconButton.styleFrom(
-                  backgroundColor: Colors.white.withValues(alpha: 0.8),
+                  backgroundColor: AppColors.whiteOverlay,
                   padding: const EdgeInsets.all(8),
                   minimumSize: const Size(36, 36),
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -152,7 +153,7 @@ class _BookScreenState extends State<BookScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.brown.shade50.withValues(alpha: 0.6),
+        color: AppColors.brown50.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -169,8 +170,8 @@ class _BookScreenState extends State<BookScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(3),
               color: _currentPageIndex == index
-                  ? Colors.brown.shade700
-                  : Colors.brown.shade400.withValues(alpha: 0.4),
+                  ? AppColors.brown700
+                  : AppColors.brown400.withValues(alpha: 0.4),
             ),
           ),
         ),

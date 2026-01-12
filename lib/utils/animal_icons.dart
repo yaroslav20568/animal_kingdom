@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:animal_kingdom/constants/colors.dart';
+
 class AnimalIcons {
   static IconData getIconForAnimal(String animalName) {
     switch (animalName.toLowerCase()) {
@@ -43,13 +45,13 @@ class AnimalIcons {
   static Color getColorForCategory(String category) {
     switch (category.toLowerCase()) {
       case 'mammal':
-        return Colors.orange.shade700;
+        return AppColors.categoryMammal;
       case 'bird':
-        return Colors.blue.shade700;
+        return AppColors.categoryBird;
       case 'marine':
-        return Colors.cyan.shade700;
+        return AppColors.categoryMarine;
       default:
-        return Colors.brown.shade700;
+        return AppColors.categoryDefault;
     }
   }
 }

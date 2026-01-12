@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:animal_kingdom/models/index.dart';
 import 'package:animal_kingdom/utils/index.dart';
+import 'package:animal_kingdom/constants/colors.dart';
 
 class BookPagesWidget extends StatelessWidget {
   final Animal leftPageAnimal;
@@ -30,7 +31,7 @@ class BookPagesWidget extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.brown.shade100, Colors.brown.shade200],
+          colors: [AppColors.brown100, AppColors.brown200],
         ),
       ),
       child: Column(
@@ -50,7 +51,7 @@ class BookPagesWidget extends StatelessWidget {
                     'Animal Encyclopedia',
                     style: TextStyle(
                       fontSize: headerFontSize,
-                      color: Colors.brown.shade700,
+                      color: AppColors.brown700,
                       fontWeight: FontWeight.w500,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -61,7 +62,7 @@ class BookPagesWidget extends StatelessWidget {
                   'Page $pageNumber of $totalPages',
                   style: TextStyle(
                     fontSize: headerFontSize,
-                    color: Colors.brown.shade700,
+                    color: AppColors.brown700,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -87,9 +88,9 @@ class BookPagesWidget extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                Colors.brown.shade400,
-                                Colors.brown.shade300,
-                                Colors.brown.shade400,
+                                AppColors.brown400,
+                                AppColors.brown300,
+                                AppColors.brown400,
                               ],
                             ),
                           ),
@@ -118,9 +119,9 @@ class BookPagesWidget extends StatelessWidget {
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                               colors: [
-                                Colors.brown.shade400,
-                                Colors.brown.shade300,
-                                Colors.brown.shade400,
+                                AppColors.brown400,
+                                AppColors.brown300,
+                                AppColors.brown400,
                               ],
                             ),
                           ),
@@ -180,11 +181,11 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
       margin: EdgeInsets.all(isTablet ? 12 : 8),
       padding: pagePadding,
       decoration: BoxDecoration(
-        color: Colors.brown.shade50,
+        color: AppColors.brown50,
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(
-            color: Colors.brown.shade300.withValues(alpha: 0.3),
+            color: AppColors.brown300.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(2, 2),
           ),
@@ -192,7 +193,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
       ),
       child: RawScrollbar(
         controller: _scrollController,
-        thumbColor: Colors.grey.shade400,
+        thumbColor: AppColors.grey400,
         thickness: 6,
         radius: const Radius.circular(3),
         thumbVisibility: true,
@@ -229,7 +230,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                           style: TextStyle(
                             fontSize: titleFontSize,
                             fontWeight: FontWeight.bold,
-                            color: Colors.brown.shade900,
+                            color: AppColors.brown900,
                             letterSpacing: 0.5,
                           ),
                         ),
@@ -268,7 +269,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.brown.shade200,
+                    color: AppColors.brown200,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: widget.animal.imageUrl.isNotEmpty
@@ -281,7 +282,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
                                 width: double.infinity,
-                                color: Colors.brown.shade200,
+                                color: AppColors.brown200,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -290,14 +291,14 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                                         widget.animal.name,
                                       ),
                                       size: 64,
-                                      color: Colors.brown.shade400,
+                                      color: AppColors.brown400,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       'Failed to load image',
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.brown.shade600,
+                                        color: AppColors.brown600,
                                       ),
                                     ),
                                   ],
@@ -308,7 +309,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                               if (loadingProgress == null) return child;
                               return Container(
                                 width: double.infinity,
-                                color: Colors.brown.shade200,
+                                color: AppColors.brown200,
                                 child: Center(
                                   child: CircularProgressIndicator(
                                     value:
@@ -319,7 +320,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                                               loadingProgress
                                                   .expectedTotalBytes!
                                         : null,
-                                    color: Colors.brown.shade700,
+                                    color: AppColors.brown700,
                                   ),
                                 ),
                               );
@@ -328,7 +329,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                         )
                       : Container(
                           width: double.infinity,
-                          color: Colors.brown.shade200,
+                          color: AppColors.brown200,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -337,14 +338,14 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                                   widget.animal.name,
                                 ),
                                 size: 64,
-                                color: Colors.brown.shade400,
+                                color: AppColors.brown400,
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 'No image available',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.brown.shade600,
+                                  color: AppColors.brown600,
                                 ),
                               ),
                             ],
@@ -358,9 +359,9 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.transparent,
-                      Colors.brown.shade300,
-                      Colors.transparent,
+                      AppColors.transparent,
+                      AppColors.brown300,
+                      AppColors.transparent,
                     ],
                   ),
                 ),
@@ -370,7 +371,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
                 widget.animal.description,
                 style: TextStyle(
                   fontSize: descriptionFontSize,
-                  color: Colors.brown.shade800,
+                  color: AppColors.brown800,
                   height: 1.6,
                 ),
               ),
@@ -378,7 +379,7 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.brown.shade100.withValues(alpha: 0.5),
+                  color: AppColors.brown100.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -409,14 +410,14 @@ class _AnimalPageWidgetState extends State<_AnimalPageWidget> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              color: Colors.brown.shade700,
+              color: AppColors.brown700,
             ),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: TextStyle(fontSize: 14, color: Colors.brown.shade800),
+            style: TextStyle(fontSize: 14, color: AppColors.brown800),
             softWrap: true,
           ),
         ),

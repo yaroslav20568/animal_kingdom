@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:animal_kingdom/widgets/index.dart';
+import 'package:animal_kingdom/widgets/start_screen/index.dart';
 import 'package:animal_kingdom/screens/book_screen.dart';
 
 class StartScreen extends StatelessWidget {
