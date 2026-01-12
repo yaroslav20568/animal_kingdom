@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/book_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,9 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Scaffold(
-        body: Center(child: Text('Welcome to Animal Kingdom')),
-      ),
+      home: const BookScreen(),
     );
   }
 }
