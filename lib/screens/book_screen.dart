@@ -11,11 +11,7 @@ class BookScreen extends StatefulWidget {
   State<BookScreen> createState() => _BookScreenState();
 }
 
-class _BookScreenState extends State<BookScreen>
-    with SingleTickerProviderStateMixin {
-  bool _isBookOpen = false;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+class _BookScreenState extends State<BookScreen> {
   int _currentPageIndex = 0;
   List<Map<String, dynamic>> _pagePairs = [];
   late PageController _pageController;
@@ -23,29 +19,18 @@ class _BookScreenState extends State<BookScreen>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _animation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
     _pageController = PageController(initialPage: _currentPageIndex);
+    _initializePagePairs();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_isBookOpen) {
-      final savedPageIndex = _currentPageIndex;
-      _initializePagePairs();
-      if (savedPageIndex < _pagePairs.length && _pageController.hasClients) {
-        _currentPageIndex = savedPageIndex;
-        _pageController.jumpToPage(savedPageIndex);
-      }
-    } else {
-      _initializePagePairs();
+    final savedPageIndex = _currentPageIndex;
+    _initializePagePairs();
+    if (savedPageIndex < _pagePairs.length && _pageController.hasClients) {
+      _currentPageIndex = savedPageIndex;
+      _pageController.jumpToPage(savedPageIndex);
     }
   }
 
@@ -64,135 +49,102 @@ class _BookScreenState extends State<BookScreen>
 
   @override
   void dispose() {
-    _animationController.dispose();
     _pageController.dispose();
     super.dispose();
   }
 
-  void _openBook() {
-    HapticFeedback.mediumImpact();
-    _initializePagePairs();
-    setState(() {
-      _isBookOpen = true;
-      _currentPageIndex = 0;
-    });
-    _animationController.forward().then((_) {
-      if (mounted && _pageController.hasClients) {
-        _pageController.jumpToPage(0);
-      }
-    });
-  }
-
   void _closeBook() {
     HapticFeedback.mediumImpact();
-    _animationController.reverse().then((_) {
-      if (mounted) {
-        setState(() {
-          _isBookOpen = false;
-          _currentPageIndex = 0;
-        });
-        if (_pageController.hasClients) {
-          _pageController.jumpToPage(0);
-        }
-      }
-    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BookOpeningAnimation(
-          animation: _animation,
-          closedBook: ClosedBookWidget(onOpen: _isBookOpen ? () {} : _openBook),
-          openBook: _buildOpenBook(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOpenBook() {
     if (_pagePairs.isEmpty) {
-      return const Center(child: Text('No data'));
+      return const Scaffold(body: Center(child: Text('No data')));
     }
 
-    return Stack(
-      children: [
-        PageView.builder(
-          controller: _pageController,
-          onPageChanged: (index) {
-            HapticFeedback.selectionClick();
-            setState(() {
-              _currentPageIndex = index;
-            });
-          },
-          itemCount: _pagePairs.length,
-          itemBuilder: (context, index) {
-            final pair = _pagePairs[index];
-            return BookPagesWidget(
-              leftPageAnimal: pair['left'],
-              rightPageAnimal: pair['right'],
-              pageNumber: index + 1,
-              totalPages: _pagePairs.length,
-            );
-          },
-        ),
-        Positioned(
-          top: 24,
-          left: 16,
-          child: _currentPageIndex > 0
-              ? IconButton(
-                  icon: const Icon(Icons.first_page, size: 20),
-                  onPressed: () {
-                    HapticFeedback.lightImpact();
-                    _pageController.animateToPage(
-                      0,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white.withValues(alpha: 0.8),
-                    padding: const EdgeInsets.all(8),
-                    minimumSize: const Size(36, 36),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  tooltip: 'To first page',
-                )
-              : const SizedBox.shrink(),
-        ),
-        Positioned(
-          top: 24,
-          right: 16,
-          child: IconButton(
-            icon: const Icon(Icons.close, size: 20),
-            onPressed: _closeBook,
-            style: IconButton.styleFrom(
-              backgroundColor: Colors.white.withValues(alpha: 0.8),
-              padding: const EdgeInsets.all(8),
-              minimumSize: const Size(36, 36),
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                HapticFeedback.selectionClick();
+                setState(() {
+                  _currentPageIndex = index;
+                });
+              },
+              itemCount: _pagePairs.length,
+              itemBuilder: (context, index) {
+                final pair = _pagePairs[index];
+                return BookPagesWidget(
+                  leftPageAnimal: pair['left'],
+                  rightPageAnimal: pair['right'],
+                  pageNumber: index + 1,
+                  totalPages: _pagePairs.length,
+                );
+              },
             ),
-            tooltip: 'Close book',
-          ),
+            Positioned(
+              top: 24,
+              left: 16,
+              child: _currentPageIndex > 0
+                  ? IconButton(
+                      icon: const Icon(Icons.first_page, size: 20),
+                      onPressed: () {
+                        HapticFeedback.lightImpact();
+                        _pageController.animateToPage(
+                          0,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      },
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.white.withValues(alpha: 0.8),
+                        padding: const EdgeInsets.all(8),
+                        minimumSize: const Size(36, 36),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      tooltip: 'To first page',
+                    )
+                  : const SizedBox.shrink(),
+            ),
+            Positioned(
+              top: 24,
+              right: 16,
+              child: IconButton(
+                icon: const Icon(Icons.close, size: 20),
+                onPressed: _closeBook,
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white.withValues(alpha: 0.8),
+                  padding: const EdgeInsets.all(8),
+                  minimumSize: const Size(36, 36),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                tooltip: 'Close book',
+              ),
+            ),
+            Positioned(
+              bottom: 8,
+              left: 0,
+              right: 0,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final screenWidth = MediaQuery.of(context).size.width;
+                  final isTablet = screenWidth > 600;
+                  final horizontalMargin = isTablet ? 12.0 : 8.0;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
+                    child: _buildPageIndicator(),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-        Positioned(
-          bottom: 8,
-          left: 0,
-          right: 0,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final screenWidth = MediaQuery.of(context).size.width;
-              final isTablet = screenWidth > 600;
-              final horizontalMargin = isTablet ? 12.0 : 8.0;
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
-                child: _buildPageIndicator(),
-              );
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 
