@@ -11,6 +11,7 @@ class AnimalsRepository {
       habitat: 'Саванны и луга Африки',
       diet: 'Плотоядное',
       lifespan: '10-14 лет в дикой природе',
+      category: 'Млекопитающее',
     ),
     const Animal(
       id: '2',
@@ -21,6 +22,7 @@ class AnimalsRepository {
       habitat: 'Саванны, леса и пустыни Африки и Азии',
       diet: 'Травоядное',
       lifespan: '60-70 лет',
+      category: 'Млекопитающее',
     ),
     const Animal(
       id: '3',
@@ -31,6 +33,7 @@ class AnimalsRepository {
       habitat: 'Горы, леса, открытые пространства',
       diet: 'Плотоядное',
       lifespan: '20-30 лет',
+      category: 'Птица',
     ),
     const Animal(
       id: '4',
@@ -41,6 +44,7 @@ class AnimalsRepository {
       habitat: 'Океаны и моря по всему миру',
       diet: 'Плотоядное',
       lifespan: '20-50 лет',
+      category: 'Морское',
     ),
     const Animal(
       id: '5',
@@ -51,6 +55,7 @@ class AnimalsRepository {
       habitat: 'Тропические леса, саванны, мангровые заросли Азии',
       diet: 'Плотоядное',
       lifespan: '10-15 лет в дикой природе',
+      category: 'Млекопитающее',
     ),
     const Animal(
       id: '6',
@@ -61,6 +66,7 @@ class AnimalsRepository {
       habitat: 'Леса, горы, тундра Северного полушария',
       diet: 'Всеядное',
       lifespan: '20-30 лет',
+      category: 'Млекопитающее',
     ),
     const Animal(
       id: '7',
@@ -71,6 +77,7 @@ class AnimalsRepository {
       habitat: 'Саванны и открытые леса Африки',
       diet: 'Травоядное',
       lifespan: '20-25 лет',
+      category: 'Млекопитающее',
     ),
     const Animal(
       id: '8',
@@ -81,6 +88,7 @@ class AnimalsRepository {
       habitat: 'Антарктида и прибрежные воды Южного полушария',
       diet: 'Плотоядное',
       lifespan: '15-20 лет',
+      category: 'Птица',
     ),
   ];
 

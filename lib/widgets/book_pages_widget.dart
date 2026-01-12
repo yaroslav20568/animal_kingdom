@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animal_kingdom/models/animal.dart';
+import 'package:animal_kingdom/utils/animal_icons.dart';
 
 class BookPagesWidget extends StatelessWidget {
   final Animal leftPageAnimal;
@@ -96,20 +97,71 @@ class BookPagesWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 12),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: Colors.brown.shade300, width: 2),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AnimalIcons.getColorForCategory(animal.category)
+                      .withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  AnimalIcons.getIconForAnimal(animal.name),
+                  size: 32,
+                  color: AnimalIcons.getColorForCategory(animal.category),
+                ),
               ),
-            ),
-            child: Text(
-              animal.name,
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.brown.shade900,
-                letterSpacing: 0.5,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      animal.name,
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown.shade900,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AnimalIcons.getColorForCategory(animal.category)
+                            .withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        animal.category,
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AnimalIcons.getColorForCategory(animal.category),
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 16, bottom: 12),
+            height: 2,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.brown.shade300,
+                  Colors.transparent,
+                ],
               ),
             ),
           ),

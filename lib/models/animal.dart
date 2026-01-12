@@ -6,6 +6,7 @@ class Animal {
   final String habitat;
   final String diet;
   final String lifespan;
+  final String category;
 
   const Animal({
     required this.id,
@@ -15,5 +16,6 @@ class Animal {
     required this.habitat,
     required this.diet,
     required this.lifespan,
+    required this.category,
   });
 }
