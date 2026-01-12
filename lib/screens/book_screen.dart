@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:animal_kingdom/data/index.dart';
-import 'package:animal_kingdom/models/index.dart';
-import 'package:animal_kingdom/screens/index.dart';
 import 'package:animal_kingdom/widgets/index.dart';
 
 class BookScreen extends StatefulWidget {
@@ -21,8 +19,6 @@ class _BookScreenState extends State<BookScreen>
   int _currentPageIndex = 0;
   late List<Map<String, dynamic>> _pagePairs;
   late PageController _pageController;
-  List<Animal> _filteredAnimals = [];
-  bool _showSearchBar = false;
 
   @override
   void initState() {
@@ -35,57 +31,20 @@ class _BookScreenState extends State<BookScreen>
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-    final animals = AnimalsRepository.getAllAnimals();
-    _filteredAnimals = animals;
-    _pagePairs = [];
-    for (int i = 0; i < _filteredAnimals.length; i += 2) {
-      if (i + 1 < _filteredAnimals.length) {
-        _pagePairs.add({
-          'left': _filteredAnimals[i],
-          'right': _filteredAnimals[i + 1],
-        });
-      } else {
-        _pagePairs.add({
-          'left': _filteredAnimals[i],
-          'right': _filteredAnimals[i],
-        });
-      }
-    }
+    _initializePagePairs();
     _pageController = PageController(initialPage: _currentPageIndex);
   }
 
-  void _updatePagePairs() {
+  void _initializePagePairs() {
+    final animals = AnimalsRepository.getAllAnimals();
     _pagePairs = [];
-    for (int i = 0; i < _filteredAnimals.length; i += 2) {
-      if (i + 1 < _filteredAnimals.length) {
-        _pagePairs.add({
-          'left': _filteredAnimals[i],
-          'right': _filteredAnimals[i + 1],
-        });
+    for (int i = 0; i < animals.length; i += 2) {
+      if (i + 1 < animals.length) {
+        _pagePairs.add({'left': animals[i], 'right': animals[i + 1]});
       } else {
-        _pagePairs.add({
-          'left': _filteredAnimals[i],
-          'right': _filteredAnimals[i],
-        });
+        _pagePairs.add({'left': animals[i], 'right': animals[i]});
       }
     }
-    if (_currentPageIndex >= _pagePairs.length && _pagePairs.isNotEmpty) {
-      _currentPageIndex = _pagePairs.length - 1;
-    }
-    if (mounted && _pageController.hasClients && _pagePairs.isNotEmpty) {
-      _pageController.jumpToPage(0);
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  void _onAnimalsFiltered(List<Animal> filtered) {
-    setState(() {
-      _filteredAnimals = filtered;
-      _currentPageIndex = 0;
-    });
-    _updatePagePairs();
   }
 
   @override
@@ -178,61 +137,16 @@ class _BookScreenState extends State<BookScreen>
         Positioned(
           top: 16,
           right: 16,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.favorite),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const FavoritesScreen(),
-                    ),
-                  );
-                },
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.white.withValues(alpha: 0.8),
-                  padding: const EdgeInsets.all(12),
-                ),
-                tooltip: 'Favorites',
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: Icon(_showSearchBar ? Icons.search_off : Icons.search),
-                onPressed: () {
-                  setState(() {
-                    _showSearchBar = !_showSearchBar;
-                  });
-                },
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.white.withValues(alpha: 0.8),
-                  padding: const EdgeInsets.all(12),
-                ),
-                tooltip: _showSearchBar ? 'Hide search' : 'Search',
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: _closeBook,
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.white.withValues(alpha: 0.8),
-                  padding: const EdgeInsets.all(12),
-                ),
-                tooltip: 'Close book',
-              ),
-            ],
+          child: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: _closeBook,
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.white.withValues(alpha: 0.8),
+              padding: const EdgeInsets.all(12),
+            ),
+            tooltip: 'Close book',
           ),
         ),
-        if (_showSearchBar)
-          Positioned(
-            top: 70,
-            left: 0,
-            right: 0,
-            child: SearchFilterBar(
-              allAnimals: AnimalsRepository.getAllAnimals(),
-              onFiltered: _onAnimalsFiltered,
-            ),
-          ),
         Positioned(bottom: 16, left: 0, right: 0, child: _buildPageIndicator()),
       ],
     );

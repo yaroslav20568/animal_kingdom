@@ -184,7 +184,6 @@ class BookPagesWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                _FavoriteButton(animalId: animal.id),
               ],
             ),
             const SizedBox(height: 16),
@@ -337,35 +336,6 @@ class BookPagesWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _FavoriteButton extends StatefulWidget {
-  final String animalId;
-
-  const _FavoriteButton({required this.animalId});
-
-  @override
-  State<_FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<_FavoriteButton> {
-  @override
-  Widget build(BuildContext context) {
-    final isFavorite = FavoritesManager.isFavorite(widget.animalId);
-
-    return IconButton(
-      icon: Icon(
-        isFavorite ? Icons.favorite : Icons.favorite_border,
-        color: isFavorite ? Colors.red.shade600 : Colors.brown.shade600,
-      ),
-      onPressed: () {
-        setState(() {
-          FavoritesManager.toggleFavorite(widget.animalId);
-        });
-      },
-      tooltip: isFavorite ? 'Remove from favorites' : 'Add to favorites',
     );
   }
 }
