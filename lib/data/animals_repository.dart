@@ -1,4 +1,4 @@
-import '../models/animal.dart';
+import 'package:animal_kingdom/models/animal.dart';
 
 class AnimalsRepository {
   static final List<Animal> _animals = [
@@ -41,6 +41,46 @@ class AnimalsRepository {
       habitat: 'Океаны и моря по всему миру',
       diet: 'Плотоядное',
       lifespan: '20-50 лет',
+    ),
+    const Animal(
+      id: '5',
+      name: 'Тигр',
+      description:
+          'Тигр — крупнейший представитель семейства кошачьих. Известен своей силой, грацией и характерными полосками.',
+      imageUrl: '',
+      habitat: 'Тропические леса, саванны, мангровые заросли Азии',
+      diet: 'Плотоядное',
+      lifespan: '10-15 лет в дикой природе',
+    ),
+    const Animal(
+      id: '6',
+      name: 'Медведь',
+      description:
+          'Медведь — крупное хищное млекопитающее. Известен своей силой и способностью впадать в зимнюю спячку.',
+      imageUrl: '',
+      habitat: 'Леса, горы, тундра Северного полушария',
+      diet: 'Всеядное',
+      lifespan: '20-30 лет',
+    ),
+    const Animal(
+      id: '7',
+      name: 'Жираф',
+      description:
+          'Жираф — самое высокое наземное животное. Известен своей длинной шеей и уникальным рисунком на шкуре.',
+      imageUrl: '',
+      habitat: 'Саванны и открытые леса Африки',
+      diet: 'Травоядное',
+      lifespan: '20-25 лет',
+    ),
+    const Animal(
+      id: '8',
+      name: 'Пингвин',
+      description:
+          'Пингвин — нелетающая морская птица, отлично приспособленная к жизни в воде и на льду.',
+      imageUrl: '',
+      habitat: 'Антарктида и прибрежные воды Южного полушария',
+      diet: 'Плотоядное',
+      lifespan: '15-20 лет',
     ),
   ];
 

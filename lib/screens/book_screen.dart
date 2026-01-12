@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animal_kingdom/widgets/closed_book_widget.dart';
 import 'package:animal_kingdom/widgets/book_pages_widget.dart';
+import 'package:animal_kingdom/widgets/book_opening_animation.dart';
 import 'package:animal_kingdom/data/animals_repository.dart';
 
 class BookScreen extends StatefulWidget {
@@ -74,23 +75,10 @@ class _BookScreenState extends State<BookScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: AnimatedBuilder(
+        child: BookOpeningAnimation(
           animation: _animation,
-          builder: (context, child) {
-            if (!_isBookOpen) {
-              return ClosedBookWidget(onOpen: _openBook);
-            }
-
-            return Stack(
-              children: [
-                Opacity(
-                  opacity: 1 - _animation.value,
-                  child: ClosedBookWidget(onOpen: () {}),
-                ),
-                Opacity(opacity: _animation.value, child: _buildOpenBook()),
-              ],
-            );
-          },
+          closedBook: ClosedBookWidget(onOpen: _isBookOpen ? () {} : _openBook),
+          openBook: _buildOpenBook(),
         ),
       ),
     );
