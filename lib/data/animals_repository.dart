@@ -1,4 +1,4 @@
-import 'package:animal_kingdom/models/animal.dart';
+import 'package:animal_kingdom/models/index.dart';
 
 class AnimalsRepository {
   static final List<Animal> _animals = [

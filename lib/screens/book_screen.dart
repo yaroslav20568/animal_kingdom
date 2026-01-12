@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:animal_kingdom/widgets/closed_book_widget.dart';
-import 'package:animal_kingdom/widgets/book_pages_widget.dart';
-import 'package:animal_kingdom/widgets/book_opening_animation.dart';
-import 'package:animal_kingdom/data/animals_repository.dart';
+import 'package:flutter/services.dart';
+
+import 'package:animal_kingdom/data/index.dart';
+import 'package:animal_kingdom/widgets/index.dart';
 
 class BookScreen extends StatefulWidget {
   const BookScreen({super.key});
@@ -55,6 +55,7 @@ class _BookScreenState extends State<BookScreen>
   }
 
   void _openBook() {
+    HapticFeedback.mediumImpact();
     setState(() {
       _isBookOpen = true;
     });
@@ -62,6 +63,7 @@ class _BookScreenState extends State<BookScreen>
   }
 
   void _closeBook() {
+    HapticFeedback.mediumImpact();
     _animationController.reverse().then((_) {
       if (mounted) {
         setState(() {
@@ -94,6 +96,7 @@ class _BookScreenState extends State<BookScreen>
         PageView.builder(
           controller: _pageController,
           onPageChanged: (index) {
+            HapticFeedback.selectionClick();
             setState(() {
               _currentPageIndex = index;
             });
@@ -116,6 +119,7 @@ class _BookScreenState extends State<BookScreen>
               ? IconButton(
                   icon: const Icon(Icons.first_page),
                   onPressed: () {
+                    HapticFeedback.lightImpact();
                     _pageController.animateToPage(
                       0,
                       duration: const Duration(milliseconds: 300),

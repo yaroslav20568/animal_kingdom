@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:animal_kingdom/models/animal.dart';
-import 'package:animal_kingdom/utils/animal_icons.dart';
+
+import 'package:animal_kingdom/models/index.dart';
+import 'package:animal_kingdom/utils/index.dart';
 
 class BookPagesWidget extends StatelessWidget {
   final Animal leftPageAnimal;
@@ -18,6 +19,11 @@ class BookPagesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+    final headerFontSize = isTablet ? 14.0 : 12.0;
+    final horizontalPadding = isTablet ? 24.0 : 16.0;
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -29,22 +35,29 @@ class BookPagesWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: horizontalPadding,
+              vertical: 8,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Энциклопедия Животных',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.brown.shade700,
-                    fontWeight: FontWeight.w500,
+                Flexible(
+                  child: Text(
+                    'Энциклопедия Животных',
+                    style: TextStyle(
+                      fontSize: headerFontSize,
+                      color: Colors.brown.shade700,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                const SizedBox(width: 8),
                 Text(
                   'Стр. $pageNumber из $totalPages',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: headerFontSize,
                     color: Colors.brown.shade700,
                     fontWeight: FontWeight.w500,
                   ),
@@ -55,7 +68,9 @@ class BookPagesWidget extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                Expanded(child: _buildPage(leftPageAnimal, isLeft: true)),
+                Expanded(
+                  child: _buildPage(context, leftPageAnimal, isLeft: true),
+                ),
                 Container(
                   width: 3,
                   decoration: BoxDecoration(
@@ -70,7 +85,9 @@ class BookPagesWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(child: _buildPage(rightPageAnimal, isLeft: false)),
+                Expanded(
+                  child: _buildPage(context, rightPageAnimal, isLeft: false),
+                ),
               ],
             ),
           ),
@@ -79,10 +96,22 @@ class BookPagesWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPage(Animal animal, {required bool isLeft}) {
+  Widget _buildPage(
+    BuildContext context,
+    Animal animal, {
+    required bool isLeft,
+  }) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+    final pagePadding = isTablet
+        ? const EdgeInsets.symmetric(horizontal: 32, vertical: 32)
+        : const EdgeInsets.symmetric(horizontal: 20, vertical: 24);
+    final titleFontSize = isTablet ? 32.0 : 26.0;
+    final descriptionFontSize = isTablet ? 16.0 : 15.0;
+
     return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      margin: EdgeInsets.all(isTablet ? 12 : 8),
+      padding: pagePadding,
       decoration: BoxDecoration(
         color: Colors.brown.shade50,
         borderRadius: BorderRadius.circular(4),
@@ -102,8 +131,9 @@ class BookPagesWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AnimalIcons.getColorForCategory(animal.category)
-                      .withValues(alpha: 0.2),
+                  color: AnimalIcons.getColorForCategory(
+                    animal.category,
+                  ).withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -120,7 +150,7 @@ class BookPagesWidget extends StatelessWidget {
                     Text(
                       animal.name,
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: titleFontSize,
                         fontWeight: FontWeight.bold,
                         color: Colors.brown.shade900,
                         letterSpacing: 0.5,
@@ -133,8 +163,9 @@ class BookPagesWidget extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: AnimalIcons.getColorForCategory(animal.category)
-                            .withValues(alpha: 0.15),
+                        color: AnimalIcons.getColorForCategory(
+                          animal.category,
+                        ).withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -142,7 +173,9 @@ class BookPagesWidget extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AnimalIcons.getColorForCategory(animal.category),
+                          color: AnimalIcons.getColorForCategory(
+                            animal.category,
+                          ),
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -169,7 +202,7 @@ class BookPagesWidget extends StatelessWidget {
           Text(
             animal.description,
             style: TextStyle(
-              fontSize: 15,
+              fontSize: descriptionFontSize,
               color: Colors.brown.shade800,
               height: 1.6,
             ),
