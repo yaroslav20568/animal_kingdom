@@ -37,25 +37,26 @@ class _BookScreenState extends State<BookScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _initializePagePairs();
+    if (_isBookOpen) {
+      final savedPageIndex = _currentPageIndex;
+      _initializePagePairs();
+      if (savedPageIndex < _pagePairs.length && _pageController.hasClients) {
+        _currentPageIndex = savedPageIndex;
+        _pageController.jumpToPage(savedPageIndex);
+      }
+    } else {
+      _initializePagePairs();
+    }
   }
 
   void _initializePagePairs() {
     final animals = AnimalsRepository.getAllAnimals();
     _pagePairs = [];
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isWideScreen = screenWidth > 480;
 
-    if (isWideScreen) {
-      for (int i = 0; i < animals.length; i += 2) {
-        if (i + 1 < animals.length) {
-          _pagePairs.add({'left': animals[i], 'right': animals[i + 1]});
-        } else {
-          _pagePairs.add({'left': animals[i], 'right': animals[i]});
-        }
-      }
-    } else {
-      for (int i = 0; i < animals.length; i++) {
+    for (int i = 0; i < animals.length; i += 2) {
+      if (i + 1 < animals.length) {
+        _pagePairs.add({'left': animals[i], 'right': animals[i + 1]});
+      } else {
         _pagePairs.add({'left': animals[i], 'right': animals[i]});
       }
     }
