@@ -19,6 +19,22 @@ class AnimalIcons {
         return Icons.pets;
       case 'penguin':
         return Icons.ac_unit;
+      case 'wolf':
+        return Icons.pets;
+      case 'shark':
+        return Icons.water;
+      case 'owl':
+        return Icons.flight;
+      case 'zebra':
+        return Icons.pets;
+      case 'kangaroo':
+        return Icons.pets;
+      case 'whale':
+        return Icons.water;
+      case 'flamingo':
+        return Icons.flight;
+      case 'panda':
+        return Icons.forest;
       default:
         return Icons.pets;
     }

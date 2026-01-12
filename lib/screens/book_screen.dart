@@ -35,14 +35,23 @@ class _BookScreenState extends State<BookScreen>
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-    _initializePagePairs();
-    _pageController = PageController(initialPage: _currentPageIndex);
-  }
-
-  void _initializePagePairs() {
     final animals = AnimalsRepository.getAllAnimals();
     _filteredAnimals = animals;
-    _updatePagePairs();
+    _pagePairs = [];
+    for (int i = 0; i < _filteredAnimals.length; i += 2) {
+      if (i + 1 < _filteredAnimals.length) {
+        _pagePairs.add({
+          'left': _filteredAnimals[i],
+          'right': _filteredAnimals[i + 1],
+        });
+      } else {
+        _pagePairs.add({
+          'left': _filteredAnimals[i],
+          'right': _filteredAnimals[i],
+        });
+      }
+    }
+    _pageController = PageController(initialPage: _currentPageIndex);
   }
 
   void _updatePagePairs() {
@@ -63,10 +72,12 @@ class _BookScreenState extends State<BookScreen>
     if (_currentPageIndex >= _pagePairs.length && _pagePairs.isNotEmpty) {
       _currentPageIndex = _pagePairs.length - 1;
     }
-    if (_pageController.hasClients && _pagePairs.isNotEmpty) {
+    if (mounted && _pageController.hasClients && _pagePairs.isNotEmpty) {
       _pageController.jumpToPage(0);
     }
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _onAnimalsFiltered(List<Animal> filtered) {

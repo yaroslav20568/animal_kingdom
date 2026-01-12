@@ -123,109 +123,193 @@ class BookPagesWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: AnimalIcons.getColorForCategory(
-                    animal.category,
-                  ).withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AnimalIcons.getColorForCategory(
+                      animal.category,
+                    ).withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    AnimalIcons.getIconForAnimal(animal.name),
+                    size: 32,
+                    color: AnimalIcons.getColorForCategory(animal.category),
+                  ),
                 ),
-                child: Icon(
-                  AnimalIcons.getIconForAnimal(animal.name),
-                  size: 32,
-                  color: AnimalIcons.getColorForCategory(animal.category),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      animal.name,
-                      style: TextStyle(
-                        fontSize: titleFontSize,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.brown.shade900,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AnimalIcons.getColorForCategory(
-                          animal.category,
-                        ).withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        animal.category,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        animal.name,
                         style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: AnimalIcons.getColorForCategory(
-                            animal.category,
-                          ),
+                          fontSize: titleFontSize,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown.shade900,
                           letterSpacing: 0.5,
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AnimalIcons.getColorForCategory(
+                            animal.category,
+                          ).withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          animal.category,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AnimalIcons.getColorForCategory(
+                              animal.category,
+                            ),
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                _FavoriteButton(animalId: animal.id),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              height: 180,
+              decoration: BoxDecoration(
+                color: Colors.brown.shade200,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: animal.imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        animal.imageUrl,
+                        width: double.infinity,
+                        height: 180,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 180,
+                            color: Colors.brown.shade200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  AnimalIcons.getIconForAnimal(animal.name),
+                                  size: 64,
+                                  color: Colors.brown.shade400,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Failed to load image',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.brown.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            height: 180,
+                            color: Colors.brown.shade200,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                    : null,
+                                color: Colors.brown.shade700,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : Container(
+                      height: 180,
+                      color: Colors.brown.shade200,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            AnimalIcons.getIconForAnimal(animal.name),
+                            size: 64,
+                            color: Colors.brown.shade400,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'No image available',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.brown.shade600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 16, bottom: 12),
+              height: 2,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.transparent,
+                    Colors.brown.shade300,
+                    Colors.transparent,
                   ],
                 ),
               ),
-              _FavoriteButton(animalId: animal.id),
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 16, bottom: 12),
-            height: 2,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  Colors.brown.shade300,
-                  Colors.transparent,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              animal.description,
+              style: TextStyle(
+                fontSize: descriptionFontSize,
+                color: Colors.brown.shade800,
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 28),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.brown.shade100.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                children: [
+                  _buildInfoRow('Habitat:', animal.habitat),
+                  const SizedBox(height: 14),
+                  _buildInfoRow('Diet:', animal.diet),
+                  const SizedBox(height: 14),
+                  _buildInfoRow('Lifespan:', animal.lifespan),
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            animal.description,
-            style: TextStyle(
-              fontSize: descriptionFontSize,
-              color: Colors.brown.shade800,
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: 28),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.brown.shade100.withValues(alpha: 0.5),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: [
-                _buildInfoRow('Habitat:', animal.habitat),
-                const SizedBox(height: 14),
-                _buildInfoRow('Diet:', animal.diet),
-                const SizedBox(height: 14),
-                _buildInfoRow('Lifespan:', animal.lifespan),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -235,7 +319,7 @@ class BookPagesWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 120,
+          width: 80,
           child: Text(
             label,
             style: TextStyle(
@@ -249,6 +333,7 @@ class BookPagesWidget extends StatelessWidget {
           child: Text(
             value,
             style: TextStyle(fontSize: 14, color: Colors.brown.shade800),
+            softWrap: true,
           ),
         ),
       ],
