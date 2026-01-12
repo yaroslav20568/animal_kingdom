@@ -17,7 +17,7 @@ class _BookScreenState extends State<BookScreen>
   late AnimationController _animationController;
   late Animation<double> _animation;
   int _currentPageIndex = 0;
-  late List<Map<String, dynamic>> _pagePairs;
+  List<Map<String, dynamic>> _pagePairs = [];
   late PageController _pageController;
 
   @override
@@ -31,17 +31,31 @@ class _BookScreenState extends State<BookScreen>
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-    _initializePagePairs();
     _pageController = PageController(initialPage: _currentPageIndex);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _initializePagePairs();
   }
 
   void _initializePagePairs() {
     final animals = AnimalsRepository.getAllAnimals();
     _pagePairs = [];
-    for (int i = 0; i < animals.length; i += 2) {
-      if (i + 1 < animals.length) {
-        _pagePairs.add({'left': animals[i], 'right': animals[i + 1]});
-      } else {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 480;
+
+    if (isWideScreen) {
+      for (int i = 0; i < animals.length; i += 2) {
+        if (i + 1 < animals.length) {
+          _pagePairs.add({'left': animals[i], 'right': animals[i + 1]});
+        } else {
+          _pagePairs.add({'left': animals[i], 'right': animals[i]});
+        }
+      }
+    } else {
+      for (int i = 0; i < animals.length; i++) {
         _pagePairs.add({'left': animals[i], 'right': animals[i]});
       }
     }
@@ -56,10 +70,16 @@ class _BookScreenState extends State<BookScreen>
 
   void _openBook() {
     HapticFeedback.mediumImpact();
+    _initializePagePairs();
     setState(() {
       _isBookOpen = true;
+      _currentPageIndex = 0;
     });
-    _animationController.forward();
+    _animationController.forward().then((_) {
+      if (mounted && _pageController.hasClients) {
+        _pageController.jumpToPage(0);
+      }
+    });
   }
 
   void _closeBook() {
@@ -68,7 +88,11 @@ class _BookScreenState extends State<BookScreen>
       if (mounted) {
         setState(() {
           _isBookOpen = false;
+          _currentPageIndex = 0;
         });
+        if (_pageController.hasClients) {
+          _pageController.jumpToPage(0);
+        }
       }
     });
   }
@@ -113,11 +137,11 @@ class _BookScreenState extends State<BookScreen>
           },
         ),
         Positioned(
-          top: 16,
+          top: 24,
           left: 16,
           child: _currentPageIndex > 0
               ? IconButton(
-                  icon: const Icon(Icons.first_page),
+                  icon: const Icon(Icons.first_page, size: 20),
                   onPressed: () {
                     HapticFeedback.lightImpact();
                     _pageController.animateToPage(
@@ -128,44 +152,73 @@ class _BookScreenState extends State<BookScreen>
                   },
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.white.withValues(alpha: 0.8),
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(8),
+                    minimumSize: const Size(36, 36),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   tooltip: 'To first page',
                 )
               : const SizedBox.shrink(),
         ),
         Positioned(
-          top: 16,
+          top: 24,
           right: 16,
           child: IconButton(
-            icon: const Icon(Icons.close),
+            icon: const Icon(Icons.close, size: 20),
             onPressed: _closeBook,
             style: IconButton.styleFrom(
               backgroundColor: Colors.white.withValues(alpha: 0.8),
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(8),
+              minimumSize: const Size(36, 36),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
             tooltip: 'Close book',
           ),
         ),
-        Positioned(bottom: 16, left: 0, right: 0, child: _buildPageIndicator()),
+        Positioned(
+          bottom: 8,
+          left: 0,
+          right: 0,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final screenWidth = MediaQuery.of(context).size.width;
+              final isTablet = screenWidth > 600;
+              final horizontalMargin = isTablet ? 12.0 : 8.0;
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalMargin),
+                child: _buildPageIndicator(),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildPageIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        _pagePairs.length,
-        (index) => Container(
-          width: 8,
-          height: 8,
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _currentPageIndex == index
-                ? Colors.brown.shade700
-                : Colors.brown.shade300,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.brown.shade50.withValues(alpha: 0.6),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+          _pagePairs.length,
+          (index) => AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            width: _currentPageIndex == index ? 24 : 6,
+            height: 6,
+            margin: const EdgeInsets.symmetric(horizontal: 3),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(3),
+              color: _currentPageIndex == index
+                  ? Colors.brown.shade700
+                  : Colors.brown.shade400.withValues(alpha: 0.4),
+            ),
           ),
         ),
       ),

@@ -20,6 +20,7 @@ class BookPagesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 480;
     final isTablet = screenWidth > 600;
     final headerFontSize = isTablet ? 14.0 : 12.0;
     final horizontalPadding = isTablet ? 24.0 : 16.0;
@@ -35,9 +36,11 @@ class BookPagesWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding,
-              vertical: 8,
+            padding: EdgeInsets.only(
+              left: horizontalPadding + 52,
+              right: horizontalPadding + 52,
+              top: 8,
+              bottom: 8,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,29 +69,42 @@ class BookPagesWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildPage(context, leftPageAnimal, isLeft: true),
-                ),
-                Container(
-                  width: 3,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.brown.shade400,
-                        Colors.brown.shade300,
-                        Colors.brown.shade400,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: isWideScreen
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: _buildPage(
+                            context,
+                            leftPageAnimal,
+                            isLeft: true,
+                          ),
+                        ),
+                        Container(
+                          width: 3,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.brown.shade400,
+                                Colors.brown.shade300,
+                                Colors.brown.shade400,
+                              ],
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: _buildPage(
+                            context,
+                            rightPageAnimal,
+                            isLeft: false,
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: _buildPage(context, rightPageAnimal, isLeft: false),
-                ),
-              ],
+                    )
+                  : _buildPage(context, leftPageAnimal, isLeft: true),
             ),
           ),
         ],
@@ -187,86 +203,87 @@ class BookPagesWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 180,
-              decoration: BoxDecoration(
-                color: Colors.brown.shade200,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: animal.imageUrl.isNotEmpty
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        animal.imageUrl,
-                        width: double.infinity,
-                        height: 180,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            height: 180,
-                            color: Colors.brown.shade200,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  AnimalIcons.getIconForAnimal(animal.name),
-                                  size: 64,
-                                  color: Colors.brown.shade400,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Failed to load image',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.brown.shade600,
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.brown.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: animal.imageUrl.isNotEmpty
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          animal.imageUrl,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              width: double.infinity,
+                              color: Colors.brown.shade200,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    AnimalIcons.getIconForAnimal(animal.name),
+                                    size: 64,
+                                    color: Colors.brown.shade400,
                                   ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Failed to load image',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.brown.shade600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              width: double.infinity,
+                              color: Colors.brown.shade200,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  color: Colors.brown.shade700,
                                 ),
-                              ],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        color: Colors.brown.shade200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              AnimalIcons.getIconForAnimal(animal.name),
+                              size: 64,
+                              color: Colors.brown.shade400,
                             ),
-                          );
-                        },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Container(
-                            height: 180,
-                            color: Colors.brown.shade200,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                    : null,
-                                color: Colors.brown.shade700,
+                            const SizedBox(height: 8),
+                            Text(
+                              'No image available',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.brown.shade600,
                               ),
                             ),
-                          );
-                        },
+                          ],
+                        ),
                       ),
-                    )
-                  : Container(
-                      height: 180,
-                      color: Colors.brown.shade200,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            AnimalIcons.getIconForAnimal(animal.name),
-                            size: 64,
-                            color: Colors.brown.shade400,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'No image available',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.brown.shade600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 16, bottom: 12),
