@@ -44,7 +44,7 @@ class BookPagesWidget extends StatelessWidget {
               children: [
                 Flexible(
                   child: Text(
-                    'Энциклопедия Животных',
+                    'Animal Encyclopedia',
                     style: TextStyle(
                       fontSize: headerFontSize,
                       color: Colors.brown.shade700,
@@ -55,7 +55,7 @@ class BookPagesWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Стр. $pageNumber из $totalPages',
+                  'Page $pageNumber of $totalPages',
                   style: TextStyle(
                     fontSize: headerFontSize,
                     color: Colors.brown.shade700,
@@ -183,6 +183,7 @@ class BookPagesWidget extends StatelessWidget {
                   ],
                 ),
               ),
+              _FavoriteButton(animalId: animal.id),
             ],
           ),
           Container(
@@ -216,11 +217,11 @@ class BookPagesWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _buildInfoRow('Среда обитания:', animal.habitat),
+                _buildInfoRow('Habitat:', animal.habitat),
                 const SizedBox(height: 14),
-                _buildInfoRow('Питание:', animal.diet),
+                _buildInfoRow('Diet:', animal.diet),
                 const SizedBox(height: 14),
-                _buildInfoRow('Продолжительность жизни:', animal.lifespan),
+                _buildInfoRow('Lifespan:', animal.lifespan),
               ],
             ),
           ),
@@ -251,6 +252,35 @@ class BookPagesWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _FavoriteButton extends StatefulWidget {
+  final String animalId;
+
+  const _FavoriteButton({required this.animalId});
+
+  @override
+  State<_FavoriteButton> createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<_FavoriteButton> {
+  @override
+  Widget build(BuildContext context) {
+    final isFavorite = FavoritesManager.isFavorite(widget.animalId);
+
+    return IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: isFavorite ? Colors.red.shade600 : Colors.brown.shade600,
+      ),
+      onPressed: () {
+        setState(() {
+          FavoritesManager.toggleFavorite(widget.animalId);
+        });
+      },
+      tooltip: isFavorite ? 'Remove from favorites' : 'Add to favorites',
     );
   }
 }

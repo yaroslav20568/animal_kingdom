@@ -102,7 +102,7 @@ class ClosedBookWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          'ЭНЦИКЛОПЕДИЯ',
+                          'ENCYCLOPEDIA',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
@@ -113,7 +113,7 @@ class ClosedBookWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Животных',
+                          'Animals',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 32,
@@ -142,7 +142,7 @@ class ClosedBookWidget extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               Text(
-                'Нажмите, чтобы открыть',
+                'Tap to open',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.brown.shade300,

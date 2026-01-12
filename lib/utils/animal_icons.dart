@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 class AnimalIcons {
   static IconData getIconForAnimal(String animalName) {
     switch (animalName.toLowerCase()) {
-      case 'лев':
+      case 'lion':
         return Icons.pets;
-      case 'слон':
+      case 'elephant':
         return Icons.forest;
-      case 'орёл':
+      case 'eagle':
         return Icons.flight;
-      case 'дельфин':
+      case 'dolphin':
         return Icons.water;
-      case 'тигр':
+      case 'tiger':
         return Icons.pets;
-      case 'медведь':
+      case 'bear':
         return Icons.forest;
-      case 'жираф':
+      case 'giraffe':
         return Icons.pets;
-      case 'пингвин':
+      case 'penguin':
         return Icons.ac_unit;
       default:
         return Icons.pets;
@@ -26,11 +26,11 @@ class AnimalIcons {
 
   static Color getColorForCategory(String category) {
     switch (category.toLowerCase()) {
-      case 'млекопитающее':
+      case 'mammal':
         return Colors.orange.shade700;
-      case 'птица':
+      case 'bird':
         return Colors.blue.shade700;
-      case 'морское':
+      case 'marine':
         return Colors.cyan.shade700;
       default:
         return Colors.brown.shade700;

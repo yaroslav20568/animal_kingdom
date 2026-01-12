@@ -88,7 +88,7 @@ class _BookScreenState extends State<BookScreen>
 
   Widget _buildOpenBook() {
     if (_pagePairs.isEmpty) {
-      return const Center(child: Text('Нет данных'));
+      return const Center(child: Text('No data'));
     }
 
     return Stack(
@@ -130,7 +130,7 @@ class _BookScreenState extends State<BookScreen>
                     backgroundColor: Colors.white.withValues(alpha: 0.8),
                     padding: const EdgeInsets.all(12),
                   ),
-                  tooltip: 'К первой странице',
+                  tooltip: 'To first page',
                 )
               : const SizedBox.shrink(),
         ),
@@ -144,7 +144,7 @@ class _BookScreenState extends State<BookScreen>
               backgroundColor: Colors.white.withValues(alpha: 0.8),
               padding: const EdgeInsets.all(12),
             ),
-            tooltip: 'Закрыть книгу',
+            tooltip: 'Close book',
           ),
         ),
         Positioned(bottom: 16, left: 0, right: 0, child: _buildPageIndicator()),
