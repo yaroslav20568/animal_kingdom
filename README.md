@@ -6,6 +6,10 @@
 
 Animal Kingdom - это мобильное приложение на Flutter, оформленное как интерактивная книга-энциклопедия о животных. Приложение позволяет пользователям открыть виртуальную книгу, листать страницы и изучать информацию о различных животных, включая их описание, среду обитания, рацион питания и продолжительность жизни.
 
+## Демонстрация
+
+![Демонстрация работы](video/demo.gif)
+
 ## Что было сделано
 
 - Создана структура проекта с разделением на экраны, виджеты, модели, данные, константы и утилиты
@@ -53,6 +57,10 @@ An interactive animal encyclopedia designed as a book for mobile devices.
 ## Project Description
 
 Animal Kingdom is a Flutter mobile application designed as an interactive animal encyclopedia book. The application allows users to open a virtual book, flip through pages, and explore information about various animals, including descriptions, habitats, diets, and lifespans.
+
+## Demo
+
+![Demo](video/demo.gif)
 
 ## What Was Done
 
